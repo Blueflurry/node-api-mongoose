@@ -1,0 +1,24 @@
+{
+    "name": "node-api-mongoose",
+    "version": "1.0.0",
+    "description": "Industry grade Node.js Express API with Mongoose",
+    "main": "app.js",
+    "license": "MIT",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "fs-extra": "^11.2.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.5.1",
+        "mongoose-paginate-v2": "^1.8.2"
+    },
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js",
+        "create-feature": "node create-feature.js"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    }
+}
