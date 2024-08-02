@@ -22,12 +22,12 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: Number,
         enum: authConfig.userRoles,
-        default: authConfig.userRoles.customer,
+        default: authConfig.userRoles.user,
     },
     status: {
         type: Number,
         enum: authConfig.userStatus,
-        default: authConfig.userRoles.customer,
+        default: authConfig.userRoles.user,
     },
 });
 
@@ -44,7 +44,7 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.virtual("fullName").get(function () {
+UserSchema.virtual("fullName").get(function () {
     let fullName = this.name.first + " ";
     if (this.name.middle) fullName += this.name.middle + " ";
     if (this.name.last) fullName += this.name.last;
@@ -53,6 +53,6 @@ userSchema.virtual("fullName").get(function () {
 });
 
 // Ensure virtuals are included in toJSON output
-userSchema.set("toJSON", { getters: true });
+UserSchema.set("toJSON", { getters: true });
 
 module.exports = UserSchema;
