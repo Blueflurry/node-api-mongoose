@@ -10,7 +10,7 @@ class AuthController extends BaseController {
         try {
             const user = await this.service.register(req.body);
             const token = this.service.generateToken(user);
-            res.success({ id: user.id, token }, 201);
+            res.success({ id: user.id, token }, 201, "User created successfully");
         } catch (err) {
             next(err);
         }
@@ -19,10 +19,7 @@ class AuthController extends BaseController {
     login = async (req, res, next) => {
         try {
             const { username, password } = req.body;
-            const { user, token } = await this.service.login(
-                username,
-                password
-            );
+            const { user, token } = await this.service.login(username, password);
             res.success({ id: user.id, token });
         } catch (err) {
             next(err);

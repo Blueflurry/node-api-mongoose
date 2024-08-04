@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("./utils/logger");
 const connectDB = require("./config/db");
 const { successResponse, errorHandler } = require("./middlewares/response");
 
@@ -13,5 +14,5 @@ app.use("/api", require("./routes")); // Routes are required here so that the co
 app.use(errorHandler); // Apply error handler middleware
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    logger.success(`Server running on port ${port}`);
 });

@@ -11,7 +11,9 @@
         "fs-extra": "^11.2.0",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.5.1",
-        "mongoose-paginate-v2": "^1.8.2"
+        "mongoose-paginate-v2": "^1.8.2",
+        "winston": "^3.13.1",
+        "winston-daily-rotate-file": "^5.0.0"
     },
     "scripts": {
         "start": "node app.js",
