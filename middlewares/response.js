@@ -1,5 +1,4 @@
 const { debug } = require("../config");
-const { HttpError } = require("../utils/error.model");
 const logger = require("../utils/logger");
 
 // Success Response Middleware
