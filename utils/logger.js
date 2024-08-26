@@ -35,8 +35,9 @@ const consoleFormat = winston.format.combine(
 // Custom format for file logs
 const fileFormat = winston.format.combine(
     winston.format.timestamp(),
-    winston.format.printf(({ timestamp, level, message }) => {
-        return `${timestamp} [${level}]: ${message}`;
+    winston.format.errors({ stack: true }), // Include stack trace in file logs
+    winston.format.printf(({ timestamp, level, message, stack }) => {
+        return stack ? `${timestamp} [${level}]: ${message} - ${stack}` : `${timestamp} [${level}]: ${message}`;
     })
 );
 
@@ -72,8 +73,5 @@ const logger = winston.createLogger({
     ],
     level: "success", // Set the default logging level
 });
-
-// Add the success level to the logger
-logger.success = logger.log.bind(logger, "success");
 
 module.exports = logger;

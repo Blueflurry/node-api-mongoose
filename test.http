@@ -4,9 +4,9 @@ content-type: application/json
 {
     "firstName": "John",
     "lastName": "Doe",
-    "email": "john.doe@example.com",
+    "email": "john.2doe@example.com",
     "password": "securepassword123",
-    "phone": "+91 1234567890",
+    "phone": "+91 11233223",
     "state": "CA",
     "country": "USA",
     "postalCode": "12345"

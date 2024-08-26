@@ -1,4 +1,6 @@
+const { debug } = require("../config");
 const { HttpError } = require("../utils/error.model");
+const logger = require("../utils/logger");
 
 // Success Response Middleware
 const successResponse = (req, res, next) => {
@@ -10,13 +12,17 @@ const successResponse = (req, res, next) => {
 
 // Error Response Middleware
 const errorHandler = (err, req, res, next) => {
+    logger.error(err);
+
     let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    if (err instanceof HttpError) statusCode = err.statusCode;
-    res.status(statusCode).json({
-        status: "error",
-        message: err.message,
-        details: err.details || null,
-    });
+
+    if (err.statusCode) statusCode = err.statusCode;
+
+    const response = { status: "error", message: err.message };
+
+    if (debug) response.error = err.stack;
+
+    res.status(statusCode).json(response);
 };
 
 module.exports = { successResponse, errorHandler };

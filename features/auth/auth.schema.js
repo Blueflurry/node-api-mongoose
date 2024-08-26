@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     },
     dob: Date,
     name: {
-        fist: { type: String, required: true },
+        fist: { type: String, required: [true, "First name is required!"] },
         middle: String,
         last: String,
     },
