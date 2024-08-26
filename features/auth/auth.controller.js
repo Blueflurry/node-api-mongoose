@@ -12,7 +12,7 @@ class AuthController extends BaseController {
             const token = this.service.generateToken(user);
             res.success({ id: user.id, token }, 201, "User created successfully");
         } catch (err) {
-            next(err);
+            res.error(err, 500, err.message);
         }
     };
 
@@ -20,9 +20,9 @@ class AuthController extends BaseController {
         try {
             const { username, password } = req.body;
             const { user, token } = await this.service.login(username, password);
-            res.success({ id: user.id, token });
+            res.success({ id: user.id, token }, 200, "User logged in successfully");
         } catch (err) {
-            next(err);
+            res.error(err, 401, "Invalid credentials.");
         }
     };
 }

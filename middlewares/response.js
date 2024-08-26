@@ -2,10 +2,21 @@ const { debug } = require("../config");
 const logger = require("../utils/logger");
 
 // Success Response Middleware
-const successResponse = (req, res, next) => {
+const addResponseHandlers = (req, res, next) => {
     res.success = (data, statusCode = 200, message) => {
         res.status(statusCode).json({ status: "success", data, message });
     };
+
+    res.error = (err, statusCode = 500, message) => {
+        logger.error(err);
+
+        const response = { status: "error", message: message };
+
+        if (debug) response.error = err.stack;
+
+        res.status(statusCode).json(response);
+    };
+
     next();
 };
 
@@ -24,4 +35,4 @@ const errorHandler = (err, req, res, next) => {
     res.status(statusCode).json(response);
 };
 
-module.exports = { successResponse, errorHandler };
+module.exports = { addResponseHandlers, errorHandler };
