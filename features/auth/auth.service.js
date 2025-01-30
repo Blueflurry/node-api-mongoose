@@ -9,8 +9,11 @@ class AuthService extends BaseService {
         super(UserModel);
     }
 
-    generateToken(user) {
-        return jwt.sign({ id: user._id }, config.secret, { expiresIn: "1h" });
+    generateAccessToken(user) {
+        return jwt.sign({ id: user._id }, config.accessTokenSecret, { expiresIn: "30m" });
+    }
+    generateRefreshToken(user) {
+        return jwt.sign({ id: user._id }, config.refreshTokenSecret, { expiresIn: "7d" });
     }
 
     async register(data) {
@@ -20,7 +23,7 @@ class AuthService extends BaseService {
     async login(username, password) {
         const user = await this.model.findOne({ username });
         if (user && (await user.matchPassword(password))) {
-            return { user, token: this.generateToken(user) };
+            return { user, accessToken: this.generateAccessToken(user), refreshToken: this.generateRefreshToken(user) };
         } else {
             throw new HttpError(401, "Invalid Credentials");
         }

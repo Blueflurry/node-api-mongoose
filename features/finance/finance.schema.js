@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 
-const jobsSchema = new mongoose.Schema({
+const financeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -16,16 +16,16 @@ const jobsSchema = new mongoose.Schema({
 
 /* Middleware to automatically populate relational fields
 
-jobsSchema.pre('find', function(next) {
+financeSchema.pre('find', function(next) {
     this.populate('key1');
     next();
 });
 
-jobsSchema.pre('findOne', function(next) {
+financeSchema.pre('findOne', function(next) {
     this.populate(['key1', 'key2']);
     next();
 });
 */
 
-jobsSchema.plugin(mongoosePaginate);
-module.exports = jobsSchema;
+financeSchema.plugin(mongoosePaginate);
+module.exports = financeSchema;

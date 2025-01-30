@@ -1,33 +1,35 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const authConfig = require("./auth.config");
+const { toEnum } = require("../../utils/objects.utils");
 
 const UserSchema = new mongoose.Schema({
     email: String,
-    password: {
-        type: String,
-        required: true,
-    },
-    phone1: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    dob: Date,
+    password: String,
     name: {
-        fist: { type: String, required: [true, "First name is required!"] },
+        first: { type: String, required: [true, "First name is required!"] },
         middle: String,
         last: String,
     },
     role: {
         type: Number,
-        enum: authConfig.userRoles,
-        default: authConfig.userRoles.user,
+        enum: toEnum(authConfig.userRoles),
+        default: authConfig.userRoles.user.value,
     },
     status: {
         type: Number,
-        enum: authConfig.userStatus,
-        default: authConfig.userRoles.user,
+        enum: toEnum(authConfig.userStatus),
+        default: authConfig.userStatus.active.value,
+    },
+    phone: {
+        type: String,
+        match: [/^\d{10}$/, "Please provide a valid 10-digit phone number"],
+        required: [true, "Phone number is required!"],
+    },
+    countryCode: {
+        type: String,
+        match: [/^\+?\d{1,4}$/, "Please provide a valid country code (1 to 4 digits)"],
+        required: [true, "Country code is required!"],
     },
 });
 

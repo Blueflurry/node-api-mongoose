@@ -1,10 +1,26 @@
 module.exports = {
     userRoles: Object.freeze({
-        admin: 0,
-        user: 1,
+        admin: {
+            name: "Admin",
+            value: 0,
+        },
+        user: {
+            name: "User",
+            value: 1,
+        },
+        business: {
+            name: "Business",
+            value: 2,
+        },
     }),
     userStatus: Object.freeze({
-        disabled: 0,
-        active: 1,
+        disabled: {
+            name: "Disabled",
+            value: 0,
+        },
+        active: {
+            name: "Active",
+            value: 1,
+        },
     }),
 };

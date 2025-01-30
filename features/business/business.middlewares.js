@@ -1,3 +1,8 @@
+/*
+Example:
+
+---------------
+
 const BookService = require("./books.service");
 
 const isAuthor = async (req, res, next) => {
@@ -18,18 +23,4 @@ const isAuthor = async (req, res, next) => {
         });
     }
 };
-
-const populateAuthor = async (req, res, next) => {
-    try {
-        if (req.params) req.params.author = req.user;
-        if (req.body && !req.body.author) req.body.author = req.user;
-        next();
-    } catch (err) {
-        res.status(500).json({
-            status: "error",
-            message: "Internal Server Error",
-        });
-    }
-};
-
-module.exports = { isAuthor, populateAuthor };
+*/
