@@ -1,26 +1,25 @@
-const csrf = require("csrf");
-const config = require("../../config");
-
 const BaseController = require("../../utils/base.controller");
 const AuthService = require("./auth.service");
+const jwt = require("jsonwebtoken");
 
 class AuthController extends BaseController {
     constructor() {
         super(AuthService);
     }
 
-    register = async (req, res, next) => {
+    registerUser = async (req, res, next) => {
         try {
-            const user = await this.service.register(req.body);
-            const accessToken = this.service.generateAccessToken(user);
-            const refreshToken = this.service.generateRefreshToken(user);
+            const { user, workspace, auth } = await this.service.registerUser(req.body);
+            const _user = this.service.createUser(user, workspace, auth);
+            const accessToken = this.service.generateAccessToken(workspace);
+            const refreshToken = this.service.generateRefreshToken(workspace);
             res.cookie("jwt", refreshToken, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "Strict",
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             });
-            res.success({ id: user.id, accessToken }, 201, "User created successfully");
+            res.success({ user: _user, accessToken }, 201, "User created successfully");
         } catch (err) {
             res.error(err, 500, err.message);
         }
@@ -28,15 +27,18 @@ class AuthController extends BaseController {
 
     login = async (req, res, next) => {
         try {
-            const { username, password } = req.body;
-            const { user, accessToken, refreshToken } = await this.service.login(username, password);
+            const { email, password } = req.body;
+            const { user, workspace, auth } = await this.service.validateCredentials(email, password);
+            const _user = this.service.createUser(user, workspace, auth);
+            const accessToken = this.service.generateAccessToken(workspace);
+            const refreshToken = this.service.generateRefreshToken(workspace);
             res.cookie("jwt", refreshToken, {
                 httpOnly: true,
                 secure: false,
                 sameSite: "Strict",
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             });
-            res.success({ id: user.id, accessToken }, 200, "User logged in successfully");
+            res.success({ user: _user, accessToken }, 200, "User logged in successfully");
         } catch (err) {
             res.error(err, 401, "Invalid credentials.");
         }
